@@ -1,5 +1,6 @@
 package com.example.proyectobiblioteis;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -73,9 +74,11 @@ public class MainActivity extends AppCompatActivity {
 
                 if (usuarioEncontrado) {
 
-                    mensajeInicio.setText("Inicio de sesión exitoso"+ SessionManager.getInstance().getUser().getName());
+                    mensajeInicio.setText("Inicio de sesión exitoso "+ SessionManager.getInstance().getUser().getName());
                     mensajeInicio.setTextColor(Color.GREEN);
-                    // Aquí puedes navegar a otra actividad
+                    Intent intent = new Intent(MainActivity.this, ListadoLibros.class);
+                    startActivity(intent);
+
                 } else {
                     mensajeInicio.setText("Credenciales incorrectas");
                     mensajeInicio.setTextColor(Color.RED);
