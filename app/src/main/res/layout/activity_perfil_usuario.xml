@@ -35,7 +35,7 @@
             tools:srcCompat="@tools:sample/avatars" />
 
         <TextView
-            android:id="@+id/CorreoUsuario"
+            android:id="@+id/tvCorreoUsuario"
             android:layout_width="198dp"
             android:layout_height="21dp"
             android:layout_marginStart="24dp"
@@ -45,13 +45,13 @@
             app:layout_constraintTop_toBottomOf="@+id/tvNombreUsuario" />
 
         <TextView
-            android:id="@+id/FechaUsuario"
+            android:id="@+id/tvFechaUsuario"
             android:layout_width="260dp"
             android:layout_height="19dp"
             android:layout_marginStart="4dp"
             android:layout_marginTop="33dp"
             android:text="TextView"
             app:layout_constraintStart_toEndOf="@+id/imFotoPerfil"
-            app:layout_constraintTop_toBottomOf="@+id/CorreoUsuario" />
+            app:layout_constraintTop_toBottomOf="@+id/tvCorreoUsuario" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
