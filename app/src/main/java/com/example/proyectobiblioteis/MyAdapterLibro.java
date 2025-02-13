@@ -1,5 +1,7 @@
 package com.example.proyectobiblioteis;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,8 +12,13 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyectobiblioteis.API.models.Book;
+import com.example.proyectobiblioteis.API.repository.BookRepository;
+import com.example.proyectobiblioteis.API.repository.ImageRepository;
 
 import java.util.List;
+
+import okhttp3.ResponseBody;
+
 public class MyAdapterLibro extends RecyclerView.Adapter<MyAdapterLibro.CardViewHolder> {
 
     List<Book> libros;
@@ -33,8 +40,33 @@ public class MyAdapterLibro extends RecyclerView.Adapter<MyAdapterLibro.CardView
         holder.tvNombreLibro.setText(libro.getTitle());
         holder.tvAutor.setText(libro.getAuthor());
         holder.tvFechaSalida.setText(libro.getPublishedDate());
-        if (libro.getBookPicture() == null || libro.getBookPicture().trim().isEmpty()) {
-            holder.img.setImageResource(R.drawable.placeholder); // Usa tu imagen de drawable
+
+        String imageName = libro.getBookPicture();
+
+        if (imageName == null || imageName.trim().isEmpty()) {
+            // Si no hay imagen, usa un placeholder
+            holder.img.setImageResource(R.drawable.placeholder);
+        } else {
+            // Llamar al repositorio para obtener la imagen
+            ImageRepository imageRepository = new ImageRepository();
+            imageRepository.getImage(imageName, new BookRepository.ApiCallback<ResponseBody>() {
+                @Override
+                public void onSuccess(ResponseBody responseBody) {
+                    try {
+                        // Convertir el ResponseBody en Bitmap
+                        Bitmap bitmap = BitmapFactory.decodeStream(responseBody.byteStream());
+                        holder.img.setImageBitmap(bitmap);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        holder.img.setImageResource(R.drawable.placeholder); // Si hay error, usa placeholder
+                    }
+                }
+
+                @Override
+                public void onFailure(Throwable t) {
+                    holder.img.setImageResource(R.drawable.placeholder); // Si falla, usa placeholder
+                }
+            });
         }
     }
 
