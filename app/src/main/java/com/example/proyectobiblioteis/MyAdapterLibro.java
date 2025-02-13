@@ -75,6 +75,7 @@ public class MyAdapterLibro extends RecyclerView.Adapter<MyAdapterLibro.CardView
         return libros.size();
     }
 
+
     public static class CardViewHolder extends RecyclerView.ViewHolder {
 
         TextView tvNombreLibro;

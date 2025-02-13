@@ -1,63 +1,63 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-    <!-- TODO: Update blank fragment layout -->
+    android:layout_height="wrap_content"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="4dp"
+    android:layout_margin="8dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content"
+        android:padding="12dp">
 
         <ImageView
             android:id="@+id/ivPhoto"
-            android:layout_width="146dp"
-            android:layout_height="158dp"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="64dp"
+            android:layout_width="100dp"
+            android:layout_height="140dp"
+            android:scaleType="centerCrop"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             tools:src="@tools:sample/avatars" />
 
         <TextView
             android:id="@+id/tvNombreLibro"
-            android:layout_width="255dp"
-            android:layout_height="26dp"
-            android:layout_marginTop="64dp"
-            android:text="Libro Titulo"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Título del Libro"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:textColor="@android:color/black"
+            app:layout_constraintStart_toEndOf="@+id/ivPhoto"
+            app:layout_constraintTop_toTopOf="@+id/ivPhoto"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginStart="12dp" />
 
         <TextView
             android:id="@+id/tvAutor"
-            android:layout_width="215dp"
-            android:layout_height="24dp"
-            android:text="Ejemplo"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toEndOf="@+id/ivPhoto"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Autor del libro"
+            android:textSize="16sp"
+            android:textColor="@android:color/darker_gray"
+            app:layout_constraintStart_toStartOf="@+id/tvNombreLibro"
             app:layout_constraintTop_toBottomOf="@+id/tvNombreLibro"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginTop="4dp" />
 
         <TextView
             android:id="@+id/tvFechaSalida"
-            android:layout_width="176dp"
-            android:layout_height="20dp"
-            android:layout_marginStart="36dp"
-            android:layout_marginTop="120dp"
-            android:text="TextView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Fecha de lanzamiento: 01/01/2023"
+            android:textSize="14sp"
+            android:textColor="@android:color/darker_gray"
+            app:layout_constraintStart_toStartOf="@+id/tvNombreLibro"
+            app:layout_constraintTop_toBottomOf="@+id/tvAutor"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toEndOf="@+id/tvNombreLibro"
-            app:layout_constraintStart_toStartOf="@+id/ivPhoto"
-            app:layout_constraintTop_toTopOf="parent" />
-
+            android:layout_marginTop="4dp" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-</FrameLayout>
+</androidx.cardview.widget.CardView>

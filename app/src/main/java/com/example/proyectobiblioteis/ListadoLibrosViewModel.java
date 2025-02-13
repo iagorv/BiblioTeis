@@ -13,11 +13,16 @@ import java.util.List;
 public class ListadoLibrosViewModel extends ViewModel {
 
     MutableLiveData<List<Book>> libros;
+    MutableLiveData<List<Book>> librosFiltrados;
     private BookRepository bookRepository;
+    private List<Book> listaCompletaLibros = new ArrayList<>();
+
 
     public ListadoLibrosViewModel() {
-        this.libros = new MutableLiveData<>();
-        this.libros.setValue(new ArrayList<>());
+        libros = new MutableLiveData<>();
+        librosFiltrados = new MutableLiveData<>();
+        libros.setValue(new ArrayList<>());
+        librosFiltrados.setValue(new ArrayList<>());
 
         bookRepository = new BookRepository();
         cargarLibrosDesdeApi();
@@ -27,7 +32,10 @@ public class ListadoLibrosViewModel extends ViewModel {
         bookRepository.getBooks(new BookRepository.ApiCallback<List<Book>>() {
             @Override
             public void onSuccess(List<Book> result) {
+                listaCompletaLibros.clear();
+                listaCompletaLibros.addAll(result);
                 libros.setValue(result);
+                librosFiltrados.setValue(result);
             }
 
             @Override
@@ -36,5 +44,24 @@ public class ListadoLibrosViewModel extends ViewModel {
             }
         });
     }
+    public void filtrarLibros(String query) {
+        if (query.isEmpty()) {
+            librosFiltrados.setValue(listaCompletaLibros);
+        } else {
+            List<Book> filtrados = new ArrayList<>();
+            for (Book libro : listaCompletaLibros) {
+                if (libro.getTitle().toLowerCase().contains(query.toLowerCase())) {
+                    filtrados.add(libro);
+                }
+            }
+            librosFiltrados.setValue(filtrados);
+        }
+    }
+
+
+
+
+
+
 }
 
