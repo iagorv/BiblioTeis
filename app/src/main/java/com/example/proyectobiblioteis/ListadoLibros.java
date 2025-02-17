@@ -40,7 +40,12 @@ public class ListadoLibros extends AppCompatActivity {
 
         // Usar librosFiltrados en lugar de libros
         listadoLibrosViewModel.librosFiltrados.observe(this, libros -> {
-            adapter = new MyAdapterLibro(libros);
+            adapter =  new MyAdapterLibro(libros, libro -> {
+                Intent intent = new Intent(ListadoLibros.this, DetalleLibro.class);
+                intent.putExtra("libro",libro);
+
+                startActivity(intent);
+            });
             rvLibros.setAdapter(adapter);
         });
         btnBuscar.setOnClickListener(view -> {

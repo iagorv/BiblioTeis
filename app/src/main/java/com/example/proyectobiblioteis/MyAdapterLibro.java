@@ -22,9 +22,14 @@ import okhttp3.ResponseBody;
 public class MyAdapterLibro extends RecyclerView.Adapter<MyAdapterLibro.CardViewHolder> {
 
     List<Book> libros;
+    private OnItemClickListener listener;
 
-    public MyAdapterLibro(List<Book> libros) {
+    public MyAdapterLibro(List<Book> libros, OnItemClickListener listener) {
         this.libros = libros;
+        this.listener = listener;
+    }
+    public interface OnItemClickListener {
+        void onItemClick(Book libro);
     }
 
     @NonNull
@@ -68,6 +73,8 @@ public class MyAdapterLibro extends RecyclerView.Adapter<MyAdapterLibro.CardView
                 }
             });
         }
+
+        holder.itemView.setOnClickListener(v -> listener.onItemClick(libro));
     }
 
     @Override

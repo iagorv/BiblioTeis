@@ -94,12 +94,19 @@ public class PerfilUsuario extends AppCompatActivity {
         bookLendingRepository.getAllLendings(new BookRepository.ApiCallback<List<BookLending>>() {
             @Override
             public void onSuccess(List<BookLending> lendings) {
-                // Asignamos los libros prestados a la lista
                 librosPrestados.clear();
-                librosPrestados.addAll(lendings);
-                // Notificamos al adaptador que los datos han cambiado
+
+                int userIdActual = SessionManager.getInstance().getUser().getId();
+
+                for (BookLending lending : lendings) {
+                    if (lending.getUserId() == userIdActual) {
+                        librosPrestados.add(lending);
+                    }
+                }
+
                 adapter.notifyDataSetChanged();
             }
+
 
             @Override
             public void onFailure(Throwable t) {
