@@ -1,5 +1,7 @@
 package com.example.proyectobiblioteis;
 
+import static com.example.proyectobiblioteis.ListadosLibros.ListadoLibros.LIBRO;
+
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -53,7 +55,7 @@ public class DetalleLibro extends AppCompatActivity {
         btnDevolver = findViewById(R.id.btnDevolver);
         bookLendingRepository = new BookLendingRepository();
         Intent intent = getIntent();
-        Book libro = (Book) intent.getSerializableExtra("libro");
+        Book libro = (Book) intent.getSerializableExtra(LIBRO);
 
 
         if (libro != null) {

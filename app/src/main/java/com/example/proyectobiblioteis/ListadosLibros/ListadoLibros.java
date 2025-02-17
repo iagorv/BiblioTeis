@@ -18,6 +18,7 @@ import com.example.proyectobiblioteis.R;
 
 public class ListadoLibros extends AppCompatActivity {
 
+    public static final String LIBRO = "libro";
     private RecyclerView rvLibros;
     private ListadoLibrosViewModel listadoLibrosViewModel;
     private ImageButton BotonPerfil;
@@ -42,7 +43,7 @@ public class ListadoLibros extends AppCompatActivity {
         listadoLibrosViewModel.librosFiltrados.observe(this, libros -> {
             adapter =  new MyAdapterLibro(libros, libro -> {
                 Intent intent = new Intent(ListadoLibros.this, DetalleLibro.class);
-                intent.putExtra("libro",libro);
+                intent.putExtra(LIBRO,libro);
 
                 startActivity(intent);
             });
