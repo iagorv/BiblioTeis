@@ -1,19 +1,19 @@
-package com.example.proyectobiblioteis;
+package com.example.proyectobiblioteis.ListadosLibros;
 
-import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.List;
+import com.example.proyectobiblioteis.DetalleLibro;
+import com.example.proyectobiblioteis.Perfil.PerfilUsuario;
+import com.example.proyectobiblioteis.R;
 
 
 public class ListadoLibros extends AppCompatActivity {

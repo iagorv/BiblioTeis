@@ -17,6 +17,7 @@ import com.example.proyectobiblioteis.API.models.BookLending;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -25,11 +26,16 @@ import java.util.Locale;
 
 public class LibroPrestadoAdapter extends RecyclerView.Adapter<LibroPrestadoAdapter.LibroViewHolder> {
 
-    List<BookLending> librosPrestados; // Lista de libros prestados
+    List<BookLending> librosPrestados;
+
 
     public LibroPrestadoAdapter(List<BookLending> librosPrestados) {
-        this.librosPrestados = librosPrestados;
-
+        this.librosPrestados = new ArrayList<>(librosPrestados);
+    }
+    public void actualizarLista(List<BookLending> nuevaLista) {
+        this.librosPrestados.clear();
+        this.librosPrestados.addAll(nuevaLista);
+        notifyDataSetChanged(); // Notifica cambios a la UI
     }
 
     @NonNull

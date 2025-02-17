@@ -1,4 +1,4 @@
-package com.example.proyectobiblioteis;
+package com.example.proyectobiblioteis.ListadosLibros;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.proyectobiblioteis.API.models.Book;
 import com.example.proyectobiblioteis.API.repository.BookRepository;
 import com.example.proyectobiblioteis.API.repository.ImageRepository;
+import com.example.proyectobiblioteis.R;
 
 import java.util.List;
 
