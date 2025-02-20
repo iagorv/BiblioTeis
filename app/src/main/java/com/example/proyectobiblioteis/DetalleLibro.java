@@ -30,6 +30,7 @@ import com.example.proyectobiblioteis.API.repository.BookLendingRepository;
 import com.example.proyectobiblioteis.API.repository.BookRepository;
 import com.example.proyectobiblioteis.API.repository.ImageRepository;
 import com.example.proyectobiblioteis.ListadosLibros.ListadoLibros;
+import com.example.proyectobiblioteis.PaginaInicio.PaginaInicio;
 import com.example.proyectobiblioteis.Perfil.PerfilUsuario;
 
 import java.util.List;
@@ -85,6 +86,14 @@ public class DetalleLibro extends AppCompatActivity {
 
 
                     Intent intent = new Intent(DetalleLibro.this, PerfilUsuario.class);
+                    startActivity(intent);
+
+                    return true;
+                }
+                if(id == R.id.Listado){
+
+
+                    Intent intent = new Intent(DetalleLibro.this, ListadoLibros.class);
                     startActivity(intent);
 
                     return true;

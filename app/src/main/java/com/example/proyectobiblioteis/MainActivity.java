@@ -18,6 +18,7 @@ import com.example.proyectobiblioteis.API.models.User;
 import com.example.proyectobiblioteis.API.repository.BookRepository;
 import com.example.proyectobiblioteis.API.repository.UserRepository;
 import com.example.proyectobiblioteis.ListadosLibros.ListadoLibros;
+import com.example.proyectobiblioteis.PaginaInicio.PaginaInicio;
 
 import java.util.List;
 
@@ -76,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
 
                     mensajeInicio.setText("Inicio de sesión exitoso "+ SessionManager.getInstance().getUser().getName());
                     mensajeInicio.setTextColor(Color.GREEN);
-                    Intent intent = new Intent(MainActivity.this, ListadoLibros.class);
+                    Intent intent = new Intent(MainActivity.this, PaginaInicio.class);
                     startActivity(intent);
 
                 } else {

@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 public class ListadoLibrosViewModel extends ViewModel {
 
-    MutableLiveData<List<Book>> libros;
+    public MutableLiveData<List<Book>> libros;
     MutableLiveData<List<Book>> librosFiltrados;
     private BookRepository bookRepository;
     private List<Book> listaCompletaLibros = new ArrayList<>();

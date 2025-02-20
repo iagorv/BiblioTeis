@@ -63,7 +63,7 @@ public class PerfilUsuario extends AppCompatActivity {
 
                 int id = menuItem.getItemId();
 
-                if(id == R.id.Perfil){
+                if(id == R.id.Listado){
 
 
                     Intent intent = new Intent(PerfilUsuario.this, ListadoLibros.class);
