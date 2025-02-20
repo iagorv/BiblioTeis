@@ -1,18 +1,26 @@
 package com.example.proyectobiblioteis.Perfil;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.MenuProvider;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.proyectobiblioteis.API.repository.BookRepository;
 import com.example.proyectobiblioteis.LibroPrestadoAdapter;
+import com.example.proyectobiblioteis.ListadosLibros.ListadoLibros;
 import com.example.proyectobiblioteis.R;
 
 import java.util.ArrayList;
@@ -35,6 +43,40 @@ public class PerfilUsuario extends AppCompatActivity {
         TextView tvFechaUsuario = findViewById(R.id.tvFechaUsuario);
         imFotoPerfil = findViewById(R.id.imFotoPerfil);
         rvLibrosPrestados = findViewById(R.id.rvLibrosPrestados);
+
+
+
+
+        Toolbar tb = findViewById(R.id.toolbarPerfil);
+        setSupportActionBar(tb);
+
+
+        addMenuProvider(new MenuProvider() {
+            @Override
+            public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+                menuInflater.inflate(R.menu.menudef,menu);
+
+            }
+
+            @Override
+            public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+
+                int id = menuItem.getItemId();
+
+                if(id == R.id.Perfil){
+
+
+                    Intent intent = new Intent(PerfilUsuario.this, ListadoLibros.class);
+                    startActivity(intent);
+
+                    return true;
+                }
+
+
+                return false;
+            }
+        });
+
 
         rvLibrosPrestados.setLayoutManager(new LinearLayoutManager(this));
         adapter = new LibroPrestadoAdapter(new ArrayList<>());

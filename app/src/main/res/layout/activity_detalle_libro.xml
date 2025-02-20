@@ -26,12 +26,13 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="120dp"
         android:orientation="vertical"
         android:padding="16dp"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarDetalleLibro"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="0dp">
+        tools:layout_editor_absoluteX="-35dp">
 
         <!-- Imagen del libro -->
         <ImageView
@@ -122,5 +123,16 @@
         </LinearLayout>
 
     </LinearLayout>
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbarDetalleLibro"
+        android:layout_width="413dp"
+        android:layout_height="105dp"
+        android:background="#31EBCF"
+        android:theme="?attr/actionBarTheme"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

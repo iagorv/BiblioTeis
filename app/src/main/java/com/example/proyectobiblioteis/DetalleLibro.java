@@ -6,6 +6,9 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -13,8 +16,11 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.graphics.Insets;
+import androidx.core.view.MenuProvider;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
@@ -23,6 +29,8 @@ import com.example.proyectobiblioteis.API.models.BookLending;
 import com.example.proyectobiblioteis.API.repository.BookLendingRepository;
 import com.example.proyectobiblioteis.API.repository.BookRepository;
 import com.example.proyectobiblioteis.API.repository.ImageRepository;
+import com.example.proyectobiblioteis.ListadosLibros.ListadoLibros;
+import com.example.proyectobiblioteis.Perfil.PerfilUsuario;
 
 import java.util.List;
 
@@ -52,10 +60,47 @@ public class DetalleLibro extends AppCompatActivity {
         tvFechaPublicacion = findViewById(R.id.tvFechaPublicacion);
         ivLibro = findViewById(R.id.ivLibro);
         btnPrestar = findViewById(R.id.btnPrestar);
+
         btnDevolver = findViewById(R.id.btnDevolver);
+
+
+
+        Toolbar tb = findViewById(R.id.toolbarDetalleLibro);
+        setSupportActionBar(tb);
+
+
+        addMenuProvider(new MenuProvider() {
+            @Override
+            public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
+                menuInflater.inflate(R.menu.menudef,menu);
+
+            }
+
+            @Override
+            public boolean onMenuItemSelected(@NonNull MenuItem menuItem) {
+
+                int id = menuItem.getItemId();
+
+                if(id == R.id.Perfil){
+
+
+                    Intent intent = new Intent(DetalleLibro.this, PerfilUsuario.class);
+                    startActivity(intent);
+
+                    return true;
+                }
+
+
+                return false;
+            }
+        });
+
+
+
         bookLendingRepository = new BookLendingRepository();
         Intent intent = getIntent();
         Book libro = (Book) intent.getSerializableExtra(LIBRO);
+
 
 
         if (libro != null) {
