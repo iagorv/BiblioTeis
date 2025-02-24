@@ -33,7 +33,12 @@ import com.example.proyectobiblioteis.ListadosLibros.ListadoLibros;
 import com.example.proyectobiblioteis.PaginaInicio.PaginaInicio;
 import com.example.proyectobiblioteis.Perfil.PerfilUsuario;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import okhttp3.ResponseBody;
 
@@ -65,7 +70,6 @@ public class DetalleLibro extends AppCompatActivity {
         btnDevolver = findViewById(R.id.btnDevolver);
 
 
-
         Toolbar tb = findViewById(R.id.toolbarDetalleLibro);
         setSupportActionBar(tb);
 
@@ -73,7 +77,7 @@ public class DetalleLibro extends AppCompatActivity {
         addMenuProvider(new MenuProvider() {
             @Override
             public void onCreateMenu(@NonNull Menu menu, @NonNull MenuInflater menuInflater) {
-                menuInflater.inflate(R.menu.menudef,menu);
+                menuInflater.inflate(R.menu.menudef, menu);
 
             }
 
@@ -82,7 +86,7 @@ public class DetalleLibro extends AppCompatActivity {
 
                 int id = menuItem.getItemId();
 
-                if(id == R.id.Perfil){
+                if (id == R.id.Perfil) {
 
 
                     Intent intent = new Intent(DetalleLibro.this, PerfilUsuario.class);
@@ -90,7 +94,7 @@ public class DetalleLibro extends AppCompatActivity {
 
                     return true;
                 }
-                if(id == R.id.Listado){
+                if (id == R.id.Listado) {
 
 
                     Intent intent = new Intent(DetalleLibro.this, ListadoLibros.class);
@@ -105,18 +109,16 @@ public class DetalleLibro extends AppCompatActivity {
         });
 
 
-
         bookLendingRepository = new BookLendingRepository();
         Intent intent = getIntent();
         Book libro = (Book) intent.getSerializableExtra(LIBRO);
-
 
 
         if (libro != null) {
             tvNombreLibro.setText(libro.getTitle());
             tvAutor.setText(libro.getAuthor());
             tvIsbn.setText("isbn: " + libro.getIsbn());
-            tvFechaPublicacion.setText("Publicado el: "+libro.getPublishedDate());
+            tvFechaPublicacion.setText("Publicado el: " + libro.getPublishedDate());
 
             String imageName = libro.getBookPicture();
             if (imageName == null || imageName.trim().isEmpty()) {
@@ -158,51 +160,75 @@ public class DetalleLibro extends AppCompatActivity {
     }
 
 
-
     private void verificarEstadoPrestamo(Book libro) {
         bookLendingRepository.getAllLendings(new BookRepository.ApiCallback<List<BookLending>>() {
             @Override
             public void onSuccess(List<BookLending> lendings) {
                 int userIdActual = SessionManager.getInstance().getUser().getId();
-                boolean tienePrestamoActivo = false;
+
+                boolean tienePrestamoUsuario = false;
+                boolean libroPrestadoOtroUsuario = false;
+                String fechaDevolucion = "";
+
+                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()); // Ajusta el formato según el API
+
 
                 for (BookLending lending : lendings) {
-                    if (lending.getUserId() == userIdActual
-                            && lending.getBookId() == libro.getId()
-                            && lending.getReturnDate() == null) {
-                        tienePrestamoActivo = true;
-                        currentLendingId = lending.getId();
-                        break;
+                    if (lending.getBookId() == libro.getId() && lending.getReturnDate() == null) {
+                        if (lending.getUserId() == userIdActual) {
+                            tienePrestamoUsuario = true;
+                            currentLendingId = lending.getId();
+                            break;
+                        } else {
+                            libroPrestadoOtroUsuario = true;
+                            try {
+                                Date lendDate = sdf.parse(lending.getLendDate()); // Convertir String a Date
+                                Calendar calendar = Calendar.getInstance();
+                                calendar.setTime(lendDate);
+                                calendar.add(Calendar.DAY_OF_MONTH, 15);
+                                fechaDevolucion = sdf.format(calendar.getTime());
+                            } catch (ParseException e) {
+                                e.printStackTrace();
+                            }
+                        }
                     }
                 }
 
-                actualizarBotones(tienePrestamoActivo);
+                actualizarBotones(tienePrestamoUsuario, libroPrestadoOtroUsuario, fechaDevolucion);
+
             }
 
             @Override
             public void onFailure(Throwable t) {
-                actualizarBotones(false);
+                actualizarBotones(false, false, "");
             }
         });
     }
 
 
-    private void actualizarBotones(boolean tieneLibro) {
+    private void actualizarBotones(boolean tieneLibro, boolean libroPrestadoOtro, String fechaDevolucion) {
         if (tieneLibro) {
             btnPrestar.setVisibility(View.GONE);
             btnDevolver.setVisibility(View.VISIBLE);
+        } else if (libroPrestadoOtro) {
+            btnPrestar.setVisibility(View.GONE);
+            btnDevolver.setVisibility(View.GONE);
+            // Mostrar la fecha de devolución estimada
+            tvFechaPublicacion.setText("Disponible después del: " + fechaDevolucion);
         } else {
             btnPrestar.setVisibility(View.VISIBLE);
             btnDevolver.setVisibility(View.GONE);
         }
     }
+
+
     private void devolverLibro(int lendingId) {
         bookLendingRepository.returnBook(lendingId, new BookRepository.ApiCallback<Boolean>() {
             @Override
             public void onSuccess(Boolean result) {
                 if (result) {
                     Toast.makeText(DetalleLibro.this, "Libro devuelto exitosamente", Toast.LENGTH_SHORT).show();
-                    actualizarBotones(false);
+                    actualizarBotones(false, false, "");
                     currentLendingId = -1;
                 } else {
                     Toast.makeText(DetalleLibro.this, "Error al devolver el libro (ID: " + lendingId + ")", Toast.LENGTH_SHORT).show();
