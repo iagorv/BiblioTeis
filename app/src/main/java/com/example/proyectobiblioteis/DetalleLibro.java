@@ -52,7 +52,7 @@ public class DetalleLibro extends AppCompatActivity {
     private Button btnDevolver;
     private BookLendingRepository bookLendingRepository;
     private int currentLendingId;
-
+    private TextView tvfechaDevolucion;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +68,7 @@ public class DetalleLibro extends AppCompatActivity {
         btnPrestar = findViewById(R.id.btnPrestar);
 
         btnDevolver = findViewById(R.id.btnDevolver);
-
+        tvfechaDevolucion=findViewById(R.id.tvfechaDevolucion);
 
         Toolbar tb = findViewById(R.id.toolbarDetalleLibro);
         setSupportActionBar(tb);
@@ -209,15 +209,18 @@ public class DetalleLibro extends AppCompatActivity {
     private void actualizarBotones(boolean tieneLibro, boolean libroPrestadoOtro, String fechaDevolucion) {
         if (tieneLibro) {
             btnPrestar.setVisibility(View.GONE);
+            tvfechaDevolucion.setVisibility(View.GONE);
             btnDevolver.setVisibility(View.VISIBLE);
         } else if (libroPrestadoOtro) {
             btnPrestar.setVisibility(View.GONE);
             btnDevolver.setVisibility(View.GONE);
+            tvfechaDevolucion.setVisibility(View.VISIBLE);
             // Mostrar la fecha de devolución estimada
-            tvFechaPublicacion.setText("Disponible después del: " + fechaDevolucion);
+            tvfechaDevolucion.setText("Disponible después del: " + fechaDevolucion);
         } else {
             btnPrestar.setVisibility(View.VISIBLE);
             btnDevolver.setVisibility(View.GONE);
+            tvfechaDevolucion.setVisibility(View.GONE);
         }
     }
 

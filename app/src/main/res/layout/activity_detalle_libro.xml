@@ -24,15 +24,15 @@
     </androidx.cardview.widget.CardView>
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="423dp"
+        android:layout_height="359dp"
         android:layout_marginTop="120dp"
         android:orientation="vertical"
         android:padding="16dp"
         app:layout_constraintTop_toBottomOf="@+id/toolbarDetalleLibro"
         app:layout_constraintTop_toTopOf="parent"
         tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="-35dp">
+        tools:layout_editor_absoluteX="-6dp">
 
         <!-- Imagen del libro -->
         <ImageView
@@ -91,6 +91,16 @@
         </LinearLayout>
 
         <!-- Botones de acción: Prestar y Devolver -->
+
+        <TextView
+            android:visibility="gone"
+            android:id="@+id/tvfechaDevolucion"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="fecha Devolución"
+            android:textColor="#BD0000"
+            />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
