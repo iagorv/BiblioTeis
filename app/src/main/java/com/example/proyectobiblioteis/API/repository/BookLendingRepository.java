@@ -38,14 +38,20 @@ public class BookLendingRepository {
     }
 
     public void lendBook(BookLendingForm lending, final BookRepository.ApiCallback<Boolean> callback) {
+        Log.d("BookLendingRepository", "Enviando solicitud de préstamo: UserId=" + lending.getUserId() + ", BookId=" + lending.getBookId());
+
         apiService.lendBook(lending).enqueue(new Callback<BookLending>() {
             @Override
             public void onResponse(Call<BookLending> call, Response<BookLending> response) {
+                Log.d("BookLendingRepository", "Respuesta recibida: " + response.code() + " - " + response.message());
+
                 callback.onSuccess(response.isSuccessful());
             }
 
             @Override
             public void onFailure(Call<BookLending> call, Throwable t) {
+                Log.e("BookLendingRepository", "Error en la solicitud de préstamo", t);
+
                 Log.e("BookLendingRepository", "Error lending book", t);
                 callback.onFailure(t);
             }

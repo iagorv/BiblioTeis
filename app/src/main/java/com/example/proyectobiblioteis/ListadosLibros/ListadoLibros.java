@@ -2,6 +2,7 @@ package com.example.proyectobiblioteis.ListadosLibros;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -67,6 +68,9 @@ public class ListadoLibros extends AppCompatActivity {
                     startActivity(intent);
 
                     return true;
+                }
+                if(id==R.id.Camara){
+
                 }
 
 

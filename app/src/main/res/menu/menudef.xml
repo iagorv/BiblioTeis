@@ -16,6 +16,7 @@
         android:title="Item"
         app:showAsAction="ifRoom" />
     <item
+        android:id="@+id/Camara"
         android:icon="@android:drawable/ic_menu_camera"
         android:title="camara"
         app:showAsAction="ifRoom" />

@@ -1,28 +1,34 @@
 package com.example.proyectobiblioteis.API.models;
 
+import com.google.gson.annotations.SerializedName;
+
 public class BookLendingForm {
 
-    private int UserId;
-    private int BookId;
+    @SerializedName("userId")
+    private int userId;
+
+
+    @SerializedName("bookId")
+    private int bookId;
 
     public BookLendingForm(int userId, int bookId) {
-        UserId = userId;
-        BookId = bookId;
+        this.userId = userId;
+        this.bookId = bookId;
     }
 
     public int getBookId() {
-        return BookId;
+        return bookId;
     }
 
     public void setBookId(int bookId) {
-        BookId = bookId;
+        this.bookId = bookId;
     }
 
     public int getUserId() {
-        return UserId;
+        return userId;
     }
 
     public void setUserId(int userId) {
-        UserId = userId;
+        this.userId = userId;
     }
 }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,18 +20,15 @@ import androidx.activity.EdgeToEdge;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.core.graphics.Insets;
 import androidx.core.view.MenuProvider;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 
 import com.example.proyectobiblioteis.API.models.Book;
 import com.example.proyectobiblioteis.API.models.BookLending;
+import com.example.proyectobiblioteis.API.models.BookLendingForm;
 import com.example.proyectobiblioteis.API.repository.BookLendingRepository;
 import com.example.proyectobiblioteis.API.repository.BookRepository;
 import com.example.proyectobiblioteis.API.repository.ImageRepository;
 import com.example.proyectobiblioteis.ListadosLibros.ListadoLibros;
-import com.example.proyectobiblioteis.PaginaInicio.PaginaInicio;
 import com.example.proyectobiblioteis.Perfil.PerfilUsuario;
 
 import java.text.ParseException;
@@ -41,6 +39,8 @@ import java.util.List;
 import java.util.Locale;
 
 import okhttp3.ResponseBody;
+import retrofit2.Call;
+import retrofit2.Response;
 
 public class DetalleLibro extends AppCompatActivity {
     private TextView tvAutor;
@@ -53,6 +53,7 @@ public class DetalleLibro extends AppCompatActivity {
     private BookLendingRepository bookLendingRepository;
     private int currentLendingId;
     private TextView tvfechaDevolucion;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +69,7 @@ public class DetalleLibro extends AppCompatActivity {
         btnPrestar = findViewById(R.id.btnPrestar);
 
         btnDevolver = findViewById(R.id.btnDevolver);
-        tvfechaDevolucion=findViewById(R.id.tvfechaDevolucion);
+        tvfechaDevolucion = findViewById(R.id.tvfechaDevolucion);
 
         Toolbar tb = findViewById(R.id.toolbarDetalleLibro);
         setSupportActionBar(tb);
@@ -154,6 +155,19 @@ public class DetalleLibro extends AppCompatActivity {
                     Toast.makeText(DetalleLibro.this, "No se encontró préstamo asociado", Toast.LENGTH_SHORT).show();
                 }
             });
+
+
+            btnPrestar.setOnClickListener(v -> {
+
+             //   prestarLibro(libro.getId());
+               // prestarLibro2();
+                 Intent intentCamara = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intentCamara, 100);
+
+
+            });
+
+
         } else {
             tvAutor.setText("hola");
         }
@@ -244,4 +258,65 @@ public class DetalleLibro extends AppCompatActivity {
             }
         });
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 100 && resultCode == RESULT_OK) {
+            // Simula que se escaneó el QR y procede con el préstamo del libro
+            prestarLibro2();
+        }
+    }
+
+    private void prestarLibro(int idLibro) {
+        int userIdActual = SessionManager.getInstance().getUser().getId();
+
+        BookLendingForm lendingForm = new BookLendingForm(userIdActual, idLibro);
+        System.out.println("lending"+ lendingForm.getUserId()+" "+ lendingForm.getBookId());
+
+        bookLendingRepository.lendBook(lendingForm, new BookRepository.ApiCallback<Boolean>() {
+            @Override
+            public void onSuccess(Boolean success) {
+                if (success) {
+                    Toast.makeText(DetalleLibro.this, "Libro prestado exitosamente", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(DetalleLibro.this, "Error al prestar el libro", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Toast.makeText(DetalleLibro.this, "Error de conexión", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void prestarLibro2( ) {
+
+        BookLendingForm lendingForm = new BookLendingForm(5, 3);
+        System.out.println("lending"+ lendingForm.getUserId()+" "+ lendingForm.getBookId());
+
+        bookLendingRepository.lendBook(lendingForm, new BookRepository.ApiCallback<Boolean>(){
+            @Override
+            public void onSuccess(Boolean success) {
+                if (success) {
+                    Toast.makeText(DetalleLibro.this, "Libro prestado exitosamente", Toast.LENGTH_SHORT).show();
+
+                } else {
+                    Toast.makeText(DetalleLibro.this, "Error al prestar el libro", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Throwable t) {
+                Toast.makeText(DetalleLibro.this, "Error de conexión", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+
+    }
+
+
 }
