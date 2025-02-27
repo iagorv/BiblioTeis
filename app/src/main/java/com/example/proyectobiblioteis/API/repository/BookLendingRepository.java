@@ -40,7 +40,7 @@ public class BookLendingRepository {
     public void lendBook(BookLendingForm lending, final BookRepository.ApiCallback<Boolean> callback) {
         Log.d("BookLendingRepository", "Enviando solicitud de préstamo: UserId=" + lending.getUserId() + ", BookId=" + lending.getBookId());
 
-        apiService.lendBook(lending).enqueue(new Callback<BookLending>() {
+        apiService.lendBook(lending.getUserId(),lending.getBookId()).enqueue(new Callback<BookLending>() {
             @Override
             public void onResponse(Call<BookLending> call, Response<BookLending> response) {
                 Log.d("BookLendingRepository", "Respuesta recibida: " + response.code() + " - " + response.message());

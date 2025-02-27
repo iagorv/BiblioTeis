@@ -53,6 +53,7 @@ public class DetalleLibro extends AppCompatActivity {
     private BookLendingRepository bookLendingRepository;
     private int currentLendingId;
     private TextView tvfechaDevolucion;
+    private int idLibro;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -120,6 +121,7 @@ public class DetalleLibro extends AppCompatActivity {
             tvAutor.setText(libro.getAuthor());
             tvIsbn.setText("isbn: " + libro.getIsbn());
             tvFechaPublicacion.setText("Publicado el: " + libro.getPublishedDate());
+            idLibro = libro.getId();
 
             String imageName = libro.getBookPicture();
             if (imageName == null || imageName.trim().isEmpty()) {
@@ -159,7 +161,7 @@ public class DetalleLibro extends AppCompatActivity {
 
             btnPrestar.setOnClickListener(v -> {
 
-             //   prestarLibro(libro.getId());
+               // prestarLibro(librolibro.getId());
                // prestarLibro2();
                  Intent intentCamara = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
                 startActivityForResult(intentCamara, 100);
@@ -265,7 +267,8 @@ public class DetalleLibro extends AppCompatActivity {
 
         if (requestCode == 100 && resultCode == RESULT_OK) {
             // Simula que se escaneó el QR y procede con el préstamo del libro
-            prestarLibro2();
+
+            prestarLibro(idLibro);
         }
     }
 
@@ -280,12 +283,12 @@ public class DetalleLibro extends AppCompatActivity {
             public void onSuccess(Boolean success) {
                 if (success) {
                     Toast.makeText(DetalleLibro.this, "Libro prestado exitosamente", Toast.LENGTH_SHORT).show();
+                    actualizarBotones(true,false,null);
 
                 } else {
                     Toast.makeText(DetalleLibro.this, "Error al prestar el libro", Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onFailure(Throwable t) {
                 Toast.makeText(DetalleLibro.this, "Error de conexión", Toast.LENGTH_SHORT).show();

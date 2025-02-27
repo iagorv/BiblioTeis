@@ -84,22 +84,21 @@
                 android:id="@+id/tvFechaPublicacion"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
+                android:layout_weight="1.5"
+
                 android:gravity="end"
                 android:text="Fecha Publicación"
                 android:textAppearance="?android:attr/textAppearanceSmall" />
         </LinearLayout>
 
-        <!-- Botones de acción: Prestar y Devolver -->
 
         <TextView
-            android:visibility="gone"
             android:id="@+id/tvfechaDevolucion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="fecha Devolución"
             android:textColor="#BD0000"
-            />
+            android:visibility="gone" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -136,8 +135,9 @@
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbarDetalleLibro"
-        android:layout_width="413dp"
-        android:layout_height="105dp"
+        android:layout_width="409dp"
+        android:layout_height="87dp"
+        android:layout_marginTop="28dp"
         android:background="#31EBCF"
         android:theme="?attr/actionBarTheme"
         app:layout_constraintEnd_toEndOf="parent"
