@@ -240,7 +240,7 @@ public class DetalleLibro extends AppCompatActivity {
         }
     }
 
-
+    //USO la versión antigua, donde se usa el id del booklending y no la del libro
     private void devolverLibro(int lendingId) {
         bookLendingRepository.returnBook(lendingId, new BookRepository.ApiCallback<Boolean>() {
             @Override

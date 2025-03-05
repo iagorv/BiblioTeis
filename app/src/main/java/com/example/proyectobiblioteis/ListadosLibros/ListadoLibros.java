@@ -19,9 +19,12 @@ import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.proyectobiblioteis.API.models.Book;
 import com.example.proyectobiblioteis.DetalleLibro;
 import com.example.proyectobiblioteis.Perfil.PerfilUsuario;
 import com.example.proyectobiblioteis.R;
+
+import java.util.List;
 
 
 public class ListadoLibros extends AppCompatActivity {
@@ -71,13 +74,17 @@ public class ListadoLibros extends AppCompatActivity {
                 }
                 if(id==R.id.Camara){
 
+                    Intent intentCamara = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                    startActivityForResult(intentCamara, 100);
+
+
+
                 }
 
 
                 return false;
             }
         });
-
 
 
 
@@ -104,4 +111,27 @@ public class ListadoLibros extends AppCompatActivity {
 
 
     }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == 100 && resultCode == RESULT_OK) {
+            // Obtener la lista de libros del ViewModel
+            List<Book> listaLibros = listadoLibrosViewModel.libros.getValue();
+
+            if (listaLibros != null) {
+                for (Book libro : listaLibros) {
+                    if (libro.getId() == 2) { //El 2 está de ejemplo, aqui seria el id escaneado con el qr
+
+                        Intent intent = new Intent(ListadoLibros.this, DetalleLibro.class);
+                        intent.putExtra(LIBRO, libro);
+                        startActivity(intent);
+                        break;
+                    }
+                }
+            }
+        }
+    }
+
 }
