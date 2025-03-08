@@ -1,8 +1,12 @@
 package com.example.proyectobiblioteis.Perfil;
 
+import static com.example.proyectobiblioteis.MainActivity.EMAIL;
+
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -19,6 +23,7 @@ import androidx.core.view.MenuProvider;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.security.crypto.EncryptedSharedPreferences;
 
 import com.example.proyectobiblioteis.API.models.Book;
 import com.example.proyectobiblioteis.API.repository.BookRepository;
@@ -28,6 +33,11 @@ import com.example.proyectobiblioteis.ListadosLibros.ListadoLibros;
 import com.example.proyectobiblioteis.ListadosLibros.ListadoLibrosViewModel;
 import com.example.proyectobiblioteis.R;
 
+import androidx.security.crypto.EncryptedSharedPreferences;
+import androidx.security.crypto.MasterKey;
+
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -116,6 +126,30 @@ public class PerfilUsuario extends AppCompatActivity {
         viewModel.getLibrosPrestados().observe(this, libros -> {
             adapter.actualizarLista(libros);
         });
+
+
+        SharedPreferences sp = getSharedPreferences("USER_DATA", MODE_PRIVATE);
+        String email = sp.getString(EMAIL, "hola");
+        Toast.makeText(this, email, Toast.LENGTH_LONG).show();
+
+
+        try {
+            MasterKey masterKey = new MasterKey.Builder(this)
+                    .setKeyScheme(MasterKey.KeyScheme.AES256_GCM)
+                    .build();
+
+            SharedPreferences spEncripted = EncryptedSharedPreferences.create(this, "EMCRYPTEDSHARE",
+                    masterKey, EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM);
+
+            String s=spEncripted.getString("contraseña",null);
+
+
+            Toast.makeText(this, s, Toast.LENGTH_LONG).show();
+
+        } catch (GeneralSecurityException | IOException e) {
+            e.printStackTrace();
+        }
     }
 
     private void cargarImagenPerfil(String imageName) {

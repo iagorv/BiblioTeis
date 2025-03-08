@@ -9,6 +9,7 @@ activity = "1.10.0"
 constraintlayout = "2.2.0"
 retrofit = "2.9.0"
 gson = "2.8.8"
+securityCrypto = "1.1.0-alpha06"
 okhttp = "4.9.0"
 barcodeScanning = "17.3.0"
 
@@ -26,6 +27,8 @@ constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayo
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 okhttp = { module = "com.squareup.okhttp3:okhttp", version.ref = "okhttp" }
 barcode-scanning = { group = "com.google.mlkit", name = "barcode-scanning", version.ref = "barcodeScanning" }
+security-crypto = { group = "androidx.security", name = "security-crypto", version.ref = "securityCrypto" }
+
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }

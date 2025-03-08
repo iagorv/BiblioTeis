@@ -1,6 +1,7 @@
 package com.example.proyectobiblioteis;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,9 +21,16 @@ import com.example.proyectobiblioteis.API.repository.UserRepository;
 import com.example.proyectobiblioteis.ListadosLibros.ListadoLibros;
 import com.example.proyectobiblioteis.PaginaInicio.PaginaInicio;
 
+import androidx.security.crypto.EncryptedSharedPreferences;
+import androidx.security.crypto.MasterKey;
+
+import java.io.IOException;
+import java.security.GeneralSecurityException;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+
+    public static final String EMAIL = "email";
 
     private EditText emailEditText;
     private EditText passwordEditText;
@@ -69,13 +77,14 @@ public class MainActivity extends AppCompatActivity {
                     if (user.getEmail().equals(emailIngresado) && user.getPasswordHash().equals(passwordIngresado)) {
                         usuarioEncontrado = true;
                         SessionManager.getInstance().setUser(user);
+                        guardarUsuarioEnSharedPreferences(user);        // 🔹 Guardar usuario
                         break;
                     }
                 }
 
                 if (usuarioEncontrado) {
 
-                    mensajeInicio.setText("Inicio de sesión exitoso "+ SessionManager.getInstance().getUser().getName());
+                    mensajeInicio.setText("Inicio de sesión exitoso " + SessionManager.getInstance().getUser().getName());
                     mensajeInicio.setTextColor(Color.GREEN);
                     Intent intent = new Intent(MainActivity.this, PaginaInicio.class);
                     startActivity(intent);
@@ -93,5 +102,34 @@ public class MainActivity extends AppCompatActivity {
                 Log.e("MainActivity", "Error al obtener usuarios", t);
             }
         });
+    }
+
+    private void guardarUsuarioEnSharedPreferences(User user) {
+        SharedPreferences sp = getSharedPreferences("USER_DATA", MODE_PRIVATE);
+        SharedPreferences.Editor editor = sp.edit();
+        editor.putString(EMAIL, user.getEmail());
+        editor.putString("name", user.getName());
+        editor.apply();
+
+        MasterKey mk = null;
+        try {
+            mk = new MasterKey.Builder(this).setKeyScheme(MasterKey.KeyScheme.AES256_GCM).build();
+
+            SharedPreferences spEncripted = EncryptedSharedPreferences.create(this, "EMCRYPTEDSHARE",
+                    mk, EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+                    EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM);
+
+            SharedPreferences.Editor ed = spEncripted.edit();
+            ed.putString("contraseña",user.getPasswordHash());
+
+            ed.apply();
+
+        } catch (GeneralSecurityException e) {
+            throw new RuntimeException(e);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+
     }
 }
