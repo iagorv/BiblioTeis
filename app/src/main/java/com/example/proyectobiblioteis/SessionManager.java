@@ -24,7 +24,7 @@ public class SessionManager {
     public User getUser() {
         return user;
     }
-
+//Llamar a este metodo cuando se haga el logout
     public void logout() {
         user = null;
     }

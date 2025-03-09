@@ -42,10 +42,14 @@ public class MyAdapterLibro extends RecyclerView.Adapter<MyAdapterLibro.CardView
 
     @Override
     public void onBindViewHolder(@NonNull CardViewHolder holder, int position) {
+
+        //Parte "normal del metodo si no hiciera falta imagen
         Book libro = libros.get(position);
         holder.tvNombreLibro.setText(libro.getTitle());
         holder.tvAutor.setText(libro.getAuthor());
         holder.tvFechaSalida.setText(libro.getPublishedDate());
+
+        //Inicio imagen
 
         String imageName = libro.getBookPicture();
 
@@ -74,6 +78,8 @@ public class MyAdapterLibro extends RecyclerView.Adapter<MyAdapterLibro.CardView
                 }
             });
         }
+        //Final Imagen
+
 
         holder.itemView.setOnClickListener(v -> listener.onItemClick(libro));
     }

@@ -3,7 +3,7 @@ package com.example.proyectobiblioteis.API.models;
 import java.io.Serializable;
 import java.util.List;
 
-public class Book implements Serializable {
+    public class Book implements Serializable {
     private int id;
     private String title;
     private String author;

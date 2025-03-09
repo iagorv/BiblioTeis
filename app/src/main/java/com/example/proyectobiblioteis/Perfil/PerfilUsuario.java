@@ -79,7 +79,7 @@ public class PerfilUsuario extends AppCompatActivity {
         registerForContextMenu(tvNombreUsuario);
 
         imFotoPerfil.setOnLongClickListener(v->{
-            selectedView = v;
+            selectedView = v; //variable con la que sabe que elemento estan manteniendo pulsado
             return false;
         });
 
@@ -144,7 +144,7 @@ public class PerfilUsuario extends AppCompatActivity {
             adapter.actualizarLista(libros);
         });
 
-
+        //Shared preferences guardadas en el login, para cogerlas debe tener el mismo nombre
         SharedPreferences sp = getSharedPreferences("USER_DATA", MODE_PRIVATE);
         String email = sp.getString(EMAIL, "hola");
         Toast.makeText(this, email, Toast.LENGTH_LONG).show();
@@ -224,9 +224,9 @@ public class PerfilUsuario extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
 
         if (v.getId() == R.id.imFotoPerfil) {
-            inflater.inflate(R.menu.menu_foto_perfil, menu); // Menú para el TextView
+            inflater.inflate(R.menu.menu_foto_perfil, menu); // Menú para la imagen
         } else if (v.getId() == R.id.tvNombreUsuario) {
-            inflater.inflate(R.menu.menu_nombre_usuario, menu); // Menú para la ImageView
+            inflater.inflate(R.menu.menu_nombre_usuario, menu); // Menú para el texto
         }
     }
 
