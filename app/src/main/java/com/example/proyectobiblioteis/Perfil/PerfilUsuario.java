@@ -8,9 +8,11 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
+import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,7 +52,7 @@ public class PerfilUsuario extends AppCompatActivity {
     private ListadoLibrosViewModel listadoLibrosViewModel;
     public static final String LIBRO = "libro";
     private BookRepository bookRepository;
-
+    private View selectedView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -70,6 +72,21 @@ public class PerfilUsuario extends AppCompatActivity {
         Toolbar tb = findViewById(R.id.toolbarPerfil);
         setSupportActionBar(tb);
 
+
+
+
+        registerForContextMenu(imFotoPerfil);
+        registerForContextMenu(tvNombreUsuario);
+
+        imFotoPerfil.setOnLongClickListener(v->{
+            selectedView = v;
+            return false;
+        });
+
+        tvNombreUsuario.setOnLongClickListener(v->{
+            selectedView = v;
+            return false;
+        });
 
         addMenuProvider(new MenuProvider() {
             @Override
@@ -199,5 +216,36 @@ public class PerfilUsuario extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        MenuInflater inflater = getMenuInflater();
+
+        if (v.getId() == R.id.imFotoPerfil) {
+            inflater.inflate(R.menu.menu_foto_perfil, menu); // Menú para el TextView
+        } else if (v.getId() == R.id.tvNombreUsuario) {
+            inflater.inflate(R.menu.menu_nombre_usuario, menu); // Menú para la ImageView
+        }
+    }
+
+    @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        if (selectedView == null) return super.onContextItemSelected(item);
+
+        if (selectedView.getId() == R.id.tvNombreUsuario) {
+            if (item.getItemId() == R.id.opcionNombreUsuario) {
+                Toast.makeText(this, "Opcion del nombre de usuario", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        } else if (selectedView.getId() == R.id.imFotoPerfil) {
+            if (item.getItemId() == R.id.opcionFotoPerfil) {
+                Toast.makeText(this, "Opción de foto de usuario", Toast.LENGTH_SHORT).show();
+                return true;
+            }
+        }
+
+        return super.onContextItemSelected(item);
     }
 }
